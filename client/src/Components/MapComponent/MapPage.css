@@ -1,0 +1,17 @@
+.react-select-container {
+    z-index: 1000;
+}
+
+.react-select__menu {
+    z-index: 1050;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.search-input {
+    flex: 1;
+}
