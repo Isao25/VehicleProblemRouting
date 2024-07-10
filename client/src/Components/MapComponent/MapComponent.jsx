@@ -47,7 +47,7 @@ const Geocoder = ({ limaBounds, setSelectedPosition }) => {
         return () => {
             geocoder.remove();
         };
-    }, [map, limaBounds, setSelectedPosition]);
+    }, [map, limaBounds, setSelectedosition]);
 
     return null;
 };
