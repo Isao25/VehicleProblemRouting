@@ -105,7 +105,6 @@ export const MapComponent = () => {
 
     return (
         <Container>
-            <Typography variant="h4">Map with Leaflet.js</Typography>
             <MapContainer
                 center={[-12.0464, -77.0428]}
                 zoom={13}
@@ -132,7 +131,7 @@ export const MapComponent = () => {
                 )}
             </MapContainer>
             <TextField
-                label="Name"
+                label="Nombre"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 style={{ marginTop: '10px' }}
@@ -152,7 +151,7 @@ export const MapComponent = () => {
                 onClick={handleAddMarker}
                 style={{ marginTop: '10px' }}
             >
-                Add Marker
+                Añadir nodo
             </Button>
             <Button
                 variant="contained"
@@ -161,7 +160,7 @@ export const MapComponent = () => {
                 style={{ marginTop: '10px', marginLeft: '10px' }}
                 disabled={!selectedPosition || !name}
             >
-                Save Marker
+                Guardar nodo
             </Button>
             <ToastContainer />
         </Container>
