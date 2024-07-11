@@ -72,6 +72,7 @@ const schema = yup.object().shape({
 });
 
 export const CVRP = () => {
+    const [isLoading, setIsLoading] = useState(false)
     const [markers, setMarkers] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState(null);
     const [selectedField, setSelectedField] = useState(null);
@@ -141,6 +142,7 @@ export const CVRP = () => {
     };
 
     const onSubmit = async (data) => {
+        setIsLoading(true)
         const formattedData = {
             num_vehicles: data.num_vehicles,
             vehicle_capacities: Array(data.num_vehicles).fill(data.vehicle_capacities),
@@ -165,11 +167,12 @@ export const CVRP = () => {
 
             if (response.status === 200) {
                 toast.success('Datos enviados correctamente.');
-                console.log('Response:', response.data);
                 const map = mapRef.current;
                 PointsDraw(response.data.routes, map);
+                setIsLoading(false)
             } else {
                 toast.error('Error al enviar los datos.');
+                setIsLoading(false)
             }
         } catch (error) {
             console.error('Error:', error);
@@ -178,7 +181,7 @@ export const CVRP = () => {
     };
 
     return (
-        <div className="flex sm:flex-col lg:flex-row items-center justify-center py-12 px-16 mx-auto ">
+        <div className="flex sm:flex-col lg:flex-row items-center justify-center py-10 px-16 mx-auto ">
             <div className="sm:w-[600px] sm:h-[400px] md:w-[700px] md:h-[500px] lg:w-[900px] lg:h-[600px] p-4 mx-4 bg-white rounded-lg shadow-xl dark:bg-darkSecundaryBg ">
                 <MapContainer
                     center={[-12.0464, -77.0428]}
@@ -268,7 +271,7 @@ export const CVRP = () => {
                                         ? `${destination.coordinates.lat}, ${destination.coordinates.lng}`
                                         : 'No asignadas'}
                                 </p>
-                                <hr className='my-3'/>
+                                <hr className='my-3' />
                             </div>
                         ))}
                         <button
@@ -279,7 +282,7 @@ export const CVRP = () => {
                             Agregar Destino
                         </button>
                     </div>
-                    
+
                     <div className='flex'>
                         <label className="block text-sm font-medium text-gray-700">Número de Vehículos:</label>
                         <Controller
@@ -313,9 +316,10 @@ export const CVRP = () => {
 
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                        className={`px-4 py-2 rounded-md text-white ${isLoading ? 'bg-gray-500' : 'bg-blue-500'}`}
+                        disabled={isLoading}
                     >
-                        Enviar
+                        {isLoading ? 'Cargando...' : 'Enviar'}
                     </button>
                 </form>
             </div>

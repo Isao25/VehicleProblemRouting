@@ -71,6 +71,7 @@ const schema = yup.object().shape({
 });
 
 export const VRP = () => {
+    const [isLoading, setIsLoading] = useState(false)
     const [markers, setMarkers] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState(null);
     const [selectedField, setSelectedField] = useState(null);
@@ -139,6 +140,7 @@ export const VRP = () => {
     };
 
     const onSubmit = async (data) => {
+        setIsLoading(true);
         const formattedData = {
             num_vehicles: data.vehicles,
             nodes: [
@@ -163,8 +165,10 @@ export const VRP = () => {
                 console.log('Response:', response.data);
                 const map = mapRef.current;
                 PointsDraw(response.data.routes, map);
+                setIsLoading(false)
             } else {
                 toast.error('Error al enviar los datos.');
+                setIsLoading(false)
             }
         } catch (error) {
             console.error('Error:', error);
@@ -173,7 +177,7 @@ export const VRP = () => {
     };
 
     return (
-        <div className="flex sm:flex-col lg:flex-row items-center justify-center py-12 px-16 mx-auto ">
+        <div className="flex sm:flex-col lg:flex-row items-center justify-center py-10 px-16 mx-auto ">
             <div className="sm:w-[600px] sm:h-[400px] md:w-[700px] md:h-[500px] lg:w-[900px] lg:h-[600px] p-4 mx-4 bg-white rounded-lg shadow-xl dark:bg-darkSecundaryBg ">
                 <MapContainer
                     center={[-12.0464, -77.0428]}
@@ -196,15 +200,15 @@ export const VRP = () => {
                     )}
                 </MapContainer>
                 <div className="flex items-center space-x-4">
-                        <button
-                            type="button"
-                            onClick={handleSaveMarker}
-                            className="px-4 py-2 bg-green-500 text-white rounded-md"
-                            disabled={!selectedPosition}
-                        >
-                            +
-                        </button>
-                    </div>
+                    <button
+                        type="button"
+                        onClick={handleSaveMarker}
+                        className="px-4 py-2 bg-green-500 text-white rounded-md"
+                        disabled={!selectedPosition}
+                    >
+                        +
+                    </button>
+                </div>
             </div>
             <div className="mx-8 sm:my-16 px-5 py-4 w-[350px] max-h-[400px] bg-white rounded-lg shadow-xl items-center justify-center dark:bg-darkSecundaryBg overflow-y-scroll">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -231,38 +235,38 @@ export const VRP = () => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Destinos</label>
                         {getValues('destinations').map((destination, index) => (
-                        <div key={index}>
-                            
-                            <Controller
-                                name={`destinations.${index}.name`}
-                                control={control}
-                                render={({ field }) => (
-                                    <input
-                                        {...field}
-                                        onClick={() => setSelectedField(`destinations.${index}`)}
-                                        className="mt-1 block w-72 border border-gray-300 rounded-md shadow-sm"
-                                        placeholder={`Destino ${index + 1}`}
-                                    />
-                                )}
-                            />
-                            <p className="mt-2 text-sm text-gray-500">
-                                Coordenadas: {destination.coordinates.lat && destination.coordinates.lng
-                                    ? `${destination.coordinates.lat}, ${destination.coordinates.lng}`
-                                    : 'No asignadas'}
-                            </p>
-                            <hr className='my-3'/>
-                        </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={handleAddDestination}
-                        className="mt-2 text-blue-500"
-                    >
-                        Agregar Destino
-                    </button>
+                            <div key={index}>
+
+                                <Controller
+                                    name={`destinations.${index}.name`}
+                                    control={control}
+                                    render={({ field }) => (
+                                        <input
+                                            {...field}
+                                            onClick={() => setSelectedField(`destinations.${index}`)}
+                                            className="mt-1 block w-72 border border-gray-300 rounded-md shadow-sm"
+                                            placeholder={`Destino ${index + 1}`}
+                                        />
+                                    )}
+                                />
+                                <p className="mt-2 text-sm text-gray-500">
+                                    Coordenadas: {destination.coordinates.lat && destination.coordinates.lng
+                                        ? `${destination.coordinates.lat}, ${destination.coordinates.lng}`
+                                        : 'No asignadas'}
+                                </p>
+                                <hr className='my-3' />
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={handleAddDestination}
+                            className="mt-2 text-blue-500"
+                        >
+                            Agregar Destino
+                        </button>
                     </div>
-                    
-                    
+
+
                     <div className='flex' >
                         <label className="block text-sm font-medium text-gray-700">Vehículos: </label>
                         <Controller
@@ -280,9 +284,10 @@ export const VRP = () => {
 
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                        className={`px-4 py-2 rounded-md text-white ${isLoading ? 'bg-gray-500' : 'bg-blue-500'}`}
+                        disabled={isLoading}
                     >
-                        Enviar
+                        {isLoading ? 'Cargando...' : 'Enviar'}
                     </button>
                 </form>
             </div>

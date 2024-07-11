@@ -74,6 +74,7 @@ const schema = yup.object().shape({
 });
 
 export const VRPTW = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [markers, setMarkers] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [selectedField, setSelectedField] = useState(null);
@@ -142,6 +143,7 @@ export const VRPTW = () => {
   };
 
   const onSubmit = async (data) => {
+    setIsLoading(true)
     const formattedData = {
       num_vehicles: data.vehicles,
       nodes: [
@@ -163,24 +165,25 @@ export const VRPTW = () => {
     };
     console.log(formattedData)
     try {
-        const response = await solveVRPTW(formattedData)
+      const response = await solveVRPTW(formattedData)
 
-        if (response.status === 200) {
-            toast.success('Datos enviados correctamente.');
-            console.log('Response:', response.data);
-            const map = mapRef.current;
-            PointsDraw(response.data.routes, map);
-        } else {
-            toast.error('Error al enviar los datos.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
+      if (response.status === 200) {
+        toast.success('Datos enviados correctamente.');
+        const map = mapRef.current;
+        PointsDraw(response.data.routes, map);
+        setIsLoading(false)
+      } else {
         toast.error('Error al enviar los datos.');
+        setIsLoading(false)
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Error al enviar los datos.');
     }
   };
 
   return (
-    <div className="flex sm:flex-col lg:flex-row items-center justify-center py-12 px-16 mx-auto ">
+    <div className="flex sm:flex-col lg:flex-row items-center justify-center py-10 px-16 mx-auto ">
       <div className="sm:w-[600px] sm:h-[400px] md:w-[700px] md:h-[500px] lg:w-[900px] lg:h-[600px] p-4 mx-4 bg-white rounded-lg shadow-xl dark:bg-darkSecundaryBg ">
         <MapContainer
           center={[-12.0464, -77.0428]}
@@ -325,7 +328,7 @@ export const VRPTW = () => {
                     ? `${destination.coordinates.lat}, ${destination.coordinates.lng}`
                     : 'No asignadas'}
                 </p>
-                <hr className='my-3'/>
+                <hr className='my-3' />
               </div>
 
             ))}
@@ -353,9 +356,10 @@ export const VRPTW = () => {
           </div>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md"
+            className={`px-4 py-2 rounded-md text-white ${isLoading ? 'bg-gray-500' : 'bg-blue-500'}`}
+            disabled={isLoading}
           >
-            Enviar
+            {isLoading ? 'Cargando...' : 'Enviar'}
           </button>
         </form>
       </div>

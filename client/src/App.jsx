@@ -34,6 +34,14 @@ export const App = () => {
         <Hero option={option} onOptionChange={handleOptionChange} />
         {option !== "" ? (
           <div>
+            <div className="text-center py-8">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-black dark:text-white">
+                ¡Listo para comenzar?
+              </h2>
+              <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+                Marca los puntos en el mapa y encuentra la mejor ruta.
+              </p>
+            </div>
             <div className="lg:grid sm:flex sm:flex-col gap-8 px-10 py-8 mx-auto my-4 rounded-lg shadow-xl dark:bg-darkSecundaryBg sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {cardsInfo.map((item) => (
                 <Card key={item.id} item={item} />
