@@ -81,7 +81,7 @@ export const CVRP = () => {
         resolver: yupResolver(schema),
         defaultValues: {
             distributionCenter: { name: '', coordinates: { lat: null, lng: null } },
-            destinations: [{ name: '', coordinates: { lat: null, lng: null }, demand: 0 }],
+            destinations: [{ name: '', coordinates: { lat: null, lng: null }, demand: null }],
             num_vehicles: 1,
             vehicle_capacities: 0
         }
@@ -136,7 +136,7 @@ export const CVRP = () => {
 
     const handleAddDestination = () => {
         const destinations = getValues('destinations');
-        setValue('destinations', [...destinations, { name: '', coordinates: { lat: null, lng: null }, demand: 0 }]);
+        setValue('destinations', [...destinations, { name: '', coordinates: { lat: null, lng: null }, demand: null }]);
     };
 
     const onSubmit = async (data) => {
