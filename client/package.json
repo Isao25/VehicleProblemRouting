@@ -10,13 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
     "@hookform/resolvers": "^3.9.0",
     "@maptiler/geocoding-control": "^1.3.2",
     "@maptiler/sdk": "^2.2.0",
-    "@mui/icons-material": "^5.16.0",
-    "@mui/material": "^5.16.0",
     "axios": "^1.7.2",
     "leaflet": "^1.9.4",
     "leaflet-control-geocoder": "^2.4.0",
