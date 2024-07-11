@@ -9,6 +9,7 @@ import 'leaflet-control-geocoder';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import axios from 'axios';
 
 const limaBounds = [
     [-12.3012, -77.1635], // Suroeste de Lima
@@ -136,13 +137,45 @@ export const VRP = () => {
         setValue('destinations', [...destinations, { name: '', coordinates: { lat: null, lng: null } }]);
     };
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
+        const formattedData = {
+            num_vehicles: data.vehicles,
+            nodes: [
+                {
+                    index: 0,
+                    lat: data.distributionCenter.coordinates.lat,
+                    long: data.distributionCenter.coordinates.lng
+                },
+                ...data.destinations.map((destination, index) => ({
+                    index: index + 1,
+                    lat: destination.coordinates.lat,
+                    long: destination.coordinates.lng
+                }))
+            ]
+        };
+        console.log(formattedData)
+        // try {
+        //     const response = await axios.post('https://your-api-endpoint.com/api/vrp', formattedData, {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //     });
+
+        //     if (response.status === 200) {
+        //         toast.success('Datos enviados correctamente.');
+        //         console.log('Response:', response.data);
+        //     } else {
+        //         toast.error('Error al enviar los datos.');
+        //     }
+        // } catch (error) {
+        //     console.error('Error:', error);
+        //     toast.error('Error al enviar los datos.');
+        // }
     };
 
     return (
         <div className="flex sm:flex-col lg:flex-row items-center justify-center py-12 px-16 mx-auto ">
-            <div className="w-full w-[600px] h-[400px] p-4 mx-4 bg-white rounded-lg shadow-xl dark:bg-darkSecundaryBg ">
+            <div className="w-full w-[500px] h-[400px] p-4 mx-4 bg-white rounded-lg shadow-xl dark:bg-darkSecundaryBg ">
                 <MapContainer
                     center={[-12.0464, -77.0428]}
                     zoom={13}
@@ -174,7 +207,7 @@ export const VRP = () => {
                         </button>
                     </div>
             </div>
-            <div className="mx-8 sm:my-16 px-5 py-4 w-[350px] max-h-[400px] bg-white rounded-lg shadow-xl  dark:bg-darkSecundaryBg overflow-y-scroll">
+            <div className="mx-8 sm:my-16 px-5 py-4 w-[350px] max-h-[400px] bg-white rounded-lg shadow-xl items-center justify-center dark:bg-darkSecundaryBg overflow-y-scroll">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">Centro de Distribución</label>
                     <div>
