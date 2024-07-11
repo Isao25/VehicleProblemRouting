@@ -8,7 +8,7 @@ class MapsConfig(AppConfig):
     graph = None
 
     def ready(self):
-        import osmnx as ox    
+        import osmnx as ox  
         if not MapsConfig.graph:
             ox.config(log_console=True, use_cache=True)
             center_point = (-12.047209, -77.069313)
@@ -16,3 +16,4 @@ class MapsConfig(AppConfig):
             G = ox.add_edge_speeds(G)
             G = ox.add_edge_travel_times(G)
             MapsConfig.graph = G
+

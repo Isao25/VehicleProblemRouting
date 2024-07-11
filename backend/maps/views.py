@@ -22,7 +22,7 @@ def solveVRPView(request):
         data = json.loads(request.body)
         G = MapsConfig.graph  
         if G is not None:
-            solver = solve_VRP(data)
+            solver = solve_VRP(G,data)
             if solver:
                 return JsonResponse({'routes': solver})
             else:
@@ -38,7 +38,7 @@ def solveCVRPView(request):
         data = json.loads(request.body)
         G = MapsConfig.graph  
         if G is not None:
-            solver = solve_CVRP(data)
+            solver = solve_CVRP(G,data)
             if solver:
                 return JsonResponse({'routes': solver})
             else:
@@ -54,7 +54,7 @@ def solveVRPTWView(request):
         data = json.loads(request.body)
         G = MapsConfig.graph  
         if G is not None:
-            solver = solve_VRPTW(data)
+            solver = solve_VRPTW(G,data)
             if solver:
                 return JsonResponse({'routes': solver})
             else:

@@ -5,3 +5,6 @@ const mapsApi = axios.create({
 });
 
 export const addLocation = (location) => mapsApi.post('/add_location/', location);
+export const solveVRP = (data) => mapsApi.post('/solve_VRP/', data);
+export const solveCVRP = (data) => mapsApi.post('/solve_CVRP/', data);
+export const solveVRPTW = (data) => mapsApi.post('/solve_VRPTW/', data);
