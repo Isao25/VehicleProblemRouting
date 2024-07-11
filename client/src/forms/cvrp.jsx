@@ -269,6 +269,7 @@ export const CVRP = () => {
                                         ? `${destination.coordinates.lat}, ${destination.coordinates.lng}`
                                         : 'No asignadas'}
                                 </p>
+                                <hr className='my-3'/>
                             </div>
                         ))}
                         <button
