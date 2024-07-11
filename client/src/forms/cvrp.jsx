@@ -179,7 +179,7 @@ export const CVRP = () => {
 
     return (
         <div className="flex sm:flex-col lg:flex-row items-center justify-center py-12 px-16 mx-auto ">
-            <div className="w-[600px] h-[400px] p-4 mx-4 bg-white rounded-lg shadow-xl dark:bg-darkSecundaryBg ">
+            <div className="sm:w-[600px] sm:h-[400px] md:w-[700px] md:h-[500px] lg:w-[900px] lg:h-[600px] p-4 mx-4 bg-white rounded-lg shadow-xl dark:bg-darkSecundaryBg ">
                 <MapContainer
                     center={[-12.0464, -77.0428]}
                     zoom={13}
