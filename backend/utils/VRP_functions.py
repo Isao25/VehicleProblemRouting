@@ -1,4 +1,6 @@
 from ortools.constraint_solver import routing_enums_pb2
+import osmnx as ox
+import networkx as nx
 from .VRPSolver_class import VRPSolver
 
 def get_routes(G, vehicles):
