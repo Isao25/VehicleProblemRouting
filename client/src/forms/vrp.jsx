@@ -9,7 +9,8 @@ import 'leaflet-control-geocoder';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
+import { solveVRP } from '../api/maps.api';
+import { PointsDraw } from '@components'
 
 const limaBounds = [
     [-12.3012, -77.1635], // Suroeste de Lima
@@ -154,23 +155,21 @@ export const VRP = () => {
             ]
         };
         console.log(formattedData)
-        // try {
-        //     const response = await axios.post('https://your-api-endpoint.com/api/vrp', formattedData, {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //     });
+        try {
+            const response = await solveVRP(formattedData)
 
-        //     if (response.status === 200) {
-        //         toast.success('Datos enviados correctamente.');
-        //         console.log('Response:', response.data);
-        //     } else {
-        //         toast.error('Error al enviar los datos.');
-        //     }
-        // } catch (error) {
-        //     console.error('Error:', error);
-        //     toast.error('Error al enviar los datos.');
-        // }
+            if (response.status === 200) {
+                toast.success('Datos enviados correctamente.');
+                console.log('Response:', response.data);
+                const map = mapRef.current;
+                PointsDraw(response.data.routes, map);
+            } else {
+                toast.error('Error al enviar los datos.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error('Error al enviar los datos.');
+        }
     };
 
     return (
