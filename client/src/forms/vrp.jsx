@@ -175,7 +175,7 @@ export const VRP = () => {
 
     return (
         <div className="flex sm:flex-col lg:flex-row items-center justify-center py-12 px-16 mx-auto ">
-            <div className="w-full w-[500px] h-[400px] p-4 mx-4 bg-white rounded-lg shadow-xl dark:bg-darkSecundaryBg ">
+            <div className="w-[600px] h-[400px] p-4 mx-4 bg-white rounded-lg shadow-xl dark:bg-darkSecundaryBg ">
                 <MapContainer
                     center={[-12.0464, -77.0428]}
                     zoom={13}
@@ -219,6 +219,7 @@ export const VRP = () => {
                                     {...field}
                                     onClick={() => setSelectedField('distributionCenter')}
                                     className="mt-1 block w-72 border border-gray-300 rounded-md shadow-sm"
+                                    placeholder="Nombre del centro de distribución"
                                 />
                             )}
                         />
@@ -241,6 +242,7 @@ export const VRP = () => {
                                         {...field}
                                         onClick={() => setSelectedField(`destinations.${index}`)}
                                         className="mt-1 block w-72 border border-gray-300 rounded-md shadow-sm"
+                                        placeholder={`Destino ${index + 1}`}
                                     />
                                 )}
                             />
